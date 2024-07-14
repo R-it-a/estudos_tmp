@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 # Perguntas:
 
+<<<<<<< HEAD
 
 
 df = pandas.read_csv("books.csv")
@@ -137,3 +138,9 @@ y_pred = clf.predict(X_test)
 
 # Avaliar o modelo
 print(classification_report(y_test, y_pred))
+=======
+if __name__ == "__main__":
+    # boa sorte!
+
+
+>>>>>>> 007d8af (git push)
