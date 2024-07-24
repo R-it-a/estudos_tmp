@@ -1,112 +1,76 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from urllib.parse import urljoin
 
-# boa sorte! <3
+def get_book_details(book_url):
+    response = requests.get(book_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-#beautifulsoup = parse com as infos do html
-#find procurar as infos que a gente quer. Entender o q eu quero e como eu vou pegar isso
+    title_tag = soup.find('h1')
+    title = title_tag.text if title_tag else "N/A"
 
+    price_tag = soup.find('p', class_='price_color')
+    price = price_tag.text.replace('Â', '') if price_tag else N/A
 
-def get_book_titles(doc):
-    Book_title_tags = doc.find_all('h3')
-    Book_titles = []
-    for tags in Book_title_tags:
-        Book_titles.append(tags.text)
-    return Book_titles
+    availability_tag = soup.find('p', class_='instock availability')
+    if availability_tag:
+        availability = availability_tag.text.strip()
+        in_stock = availability.split('(')[-1].split(' ')[0] if '(' in availability else 'N/A'
+    else:
+        availability = "N/A"
+        in_stock = "N/A"
 
-def get_book_price(doc):
-    Book_price_tags = doc.find_all('p', class_= 'price_color')
-    Book_price = []
-    for tags in Book_price_tags:
-        Book_price.append(tags.text.replace('Â', ''))
-    return Book_price
+    star_rating_tag = soup.find('p', class_='star-rating')
+    star_rating = star_rating_tag['class'][1] if star_rating_tag and "class" in star_rating_tag.attrs else "N/A"
 
-def get_stock(doc):
-    Book_stock_tag = doc.find_all('p', class_ = 'instock availability')
-    Book_stock = []
-    for stocks in Book_stock_tag:
-        Book_stock.append(stocks.text.strip())
-    return Book_stock
+    breadcrumb_tag = soup.find('ul', class_='breadcrumb')
+    if breadcrumb_tag:
+        category_tags = breadcrumb_tag.find_all('li')
+        category = category_tags[2].text.strip() if len(category_tags) > 2 else "N/A"
 
-def get_book_url(doc):
-    Book_url = []
-    for article in doc.find_all('h3'):
-        for link in article.find_all('a', href=True):
-            url = link['href']
-            links = 'http://books.toscrape.com/catalogue/' + url
-            if links not in Book_url:
-                Book_url.append(links)
-    return Book_url
+    else:
+        category = "N/A"
 
+    return {
+        'Title': title,
+        'Price': price,
+        'In Stock': in_stock
+        'Star Rating': star_rating,
+        'Category': category,
+        'URL': book_url
+    }
 
-def get_stars(doc):
-    rating_paragraphs = doc.find_all('p', class_='star-rating')
-    ratings = []
-    for rating_paragraph in rating_paragraphs:
-        rating_class = rating_paragraph.get('class', [])
-        if 'One' in rating_class:
-            ratings.append(1)
-        elif 'Two' in rating_class:
-            ratings.append(2)
-        elif 'Three' in rating_class:
-            ratings.append(3)
-        elif 'Four' in rating_class:
-            ratings.append(4)
-        elif 'Five' in rating_class:
-            ratings.append(5)
-        else:
-            ratings.append(0)
-    return ratings
-
+def get_book_urls(doc):
+    book_urls = []
+    for article in doc.find_all('article', class_='product_pod'):
+        relative_book_url = article.find('a')['href']
+        book_url = urljoin("http://books.toscrape.com/catalogue/", relative_book_url)
+        book_url.append(book_urls)
+    return book_url
 
 def get_doc(url):
     response = requests.get(url)
     if response.status_code != 200:
-        raise Exception('Failed to load page {}'.format(response))
+        raise Exception(f'failed to load page {url}')
     return BeautifulSoup(response.text, 'html.parser')
 
 def scrape_multiple_pages(n):
-    URL = 'https://books.toscrape.com/catalogue/page-'
-    titles, prices, stock_availability, ratings, urls = [], [], [], [], []
+    base_url = 'http://books.toscrape.com/catalogue/page-'
+    all_books = []
 
-    for page in range(1, n+1):
-        doc = get_doc(URL + str(page) + '.html')
-        titles.extend(get_book_titles(doc))
-        prices.extend(get_book_price(doc))
-        ratings.extend(get_stars(doc))
-        stock_availability.extend(get_stock(doc))
+    for page in range(1, n + 1):
+        page_url = base_url + str(page) + '.html'
+        doc = get_doc(page_url)
+        book_urls = get_book_urls(doc)
 
-        urls.extend(get_book_url(doc))
-
-    print(f"Titles: {len(titles)}")
-    print(f"prices: {len(prices)}")
-    print(f"stock_availability: {len(stock_availability)}")
-    print(f"ratings: {len(ratings)}")
-    print(f"urls: {len(urls)}")
-
-    book_dict1 = {
-        'TITLE': titles,
-        'PRICE': prices,
-        'STOCK_AVAILABILITY': stock_availability,
-        'RATING': ratings,
-        'URL': urls
-    }
-    return pd.DataFrame(book_dict1)
-
-
-URL = "http://books.toscrape.com/"
-response = requests.get(URL)
-page_contents = response.text
-
-#criar um file
-with open('Scrappingrf.html', 'w') as f:
-    f.write(page_contents)
-
-doc = BeautifulSoup(page_contents, "html.parser")
-
+        for book_url in book_urls:
+            book_details = get_book_details(book_url)
+            all_books.append(book_details)
+    return pd.DataFrame(all_books)
 
 if __name__ == "__main__":
     df = scrape_multiple_pages(50)
-    df.to_csv('SCB.csv', index=None)
-    print("Feito caralho")
+    df.to_csv('books.csv', index=False)
+    print("Scraping complete. Data saved caralho")
+
