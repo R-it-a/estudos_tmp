@@ -161,7 +161,7 @@ def lista_maluca_inicio_1():
 
     exemplo:
         entrada: x = 2, y = 2
-        saída: [[2,1],[1,2],[2,1],[2,2]]
+        saída: [[1,1],[1,2],[2,1],[2,2]]
     """
     return
 #UM COMEÇA NO 0 OUTRO NO 1
@@ -174,8 +174,3 @@ if __name__ == "__main__":
     #assert saida == "ritatiago" #ter certeza q vai sair o q quero, mais rapido pra checar
 
     print_burro(0)
-
-
-
-
-
