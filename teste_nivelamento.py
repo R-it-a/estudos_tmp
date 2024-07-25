@@ -1,13 +1,15 @@
 """ NIVELAMENTO PYTHON """
-def concatena():
+def concatena(a, b):
     """
     entrada: duas strings
     saída: strings concatenadas
     """
-    return
+    c = a + b
+
+    return c
 
 
-def print_burro():
+def print_burro(a):
     """
     entrada: um int
 
@@ -16,15 +18,30 @@ def print_burro():
     se a entrada for par e estiver no intervalo [6,20] (inclusivo) printe "estranho"
     se a entrada for par e maior que 20, printe "não é estranho"
     """
+    assert a > 0, "variavel negativa OU 0"
+    if a%2 != 0:
+        print("strangethings")
+    elif a%2 == 0 and 2 <= a <= 5:
+        print("notstrange")
+    elif a%2 == 0 and 6 <= a <= 20:
+        print("estranho")
+    else:
+        print("não é estranho")
     return
 
 
-def concatena_n():
+def concatena_n(entrada):
     """
     entrada: uma lista com n strings (variável)
     saída: strings concatenadas
     """
-    return
+    assert type(entrada) == list
+    concatenada = ''
+    for palavra in entrada:
+        #concatenada = concatenada + palavra
+        concatenada = concatena(concatenada, palavra)
+    return concatenada
+
 
 
 def reverte():
@@ -147,6 +164,18 @@ def lista_maluca_inicio_1():
         saída: [[2,1],[1,2],[2,1],[2,2]]
     """
     return
-
+#UM COMEÇA NO 0 OUTRO NO 1
 
 if __name__ == "__main__":
+    #saida = concatena("rita", "tiago")
+    #assert saida == "ritatiago" #ter certeza q vai sair o q quero, mais rapido pra checar
+    #saida = concatena_n(["rita", "tiago", "sofia", "giovana"])
+    #print("retorno final de jedi", saida)
+    #assert saida == "ritatiago" #ter certeza q vai sair o q quero, mais rapido pra checar
+
+    print_burro(0)
+
+
+
+
+
