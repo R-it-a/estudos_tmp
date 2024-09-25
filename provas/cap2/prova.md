@@ -37,7 +37,7 @@ print(c)
 c = "teste"
 ```
 
-10. adicione comentários e renomeie variáveis e funções para deixar o código abaixo mais claro.
+10. adicione comentários e renomeie variáveis e funções para deixar o código abaixo mais claro. ATENÇÃO: em vez de editar o trecho de código, crie a cópia editada abaixo.
 ```python
 def f(a,b):
 	c = 0
