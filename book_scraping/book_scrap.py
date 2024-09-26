@@ -35,7 +35,7 @@ def get_book_details(book_url):
     return {
         'Title': title,
         'Price': price,
-        'In Stock': in_stock
+        'In Stock': in_stock,
         'Star Rating': star_rating,
         'Category': category,
         'URL': book_url

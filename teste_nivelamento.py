@@ -1,3 +1,5 @@
+from itertools import combinations
+
 """ NIVELAMENTO PYTHON """
 def concatena(a, b):
     """
@@ -44,15 +46,17 @@ def concatena_n(entrada):
 
 
 
-def reverte():
+def reverte(a):
     """
     entrada: uma string
     saída: string ao contrário
     """
-    return
+    b = a [::-1]
+
+    return b
 
 
-def soma():
+def soma(a, b):
     """
     entradas:
         num_a : int, float
@@ -60,29 +64,79 @@ def soma():
     saida:
         resultado : int, float
     """
-    return
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        c = a + b
+        return c
+
+#class Calculadora:
+#   """
+#   entradas:
+#       operacao : string
+#           descritor da operação. valores aceitos são "soma", "subtracao",
+#           "multiplicacao", "divisao", "potencia"
+#       num_a   : int, float
+#       num_b   : int, float
+
+#   saida:
+#       resultado : int, float
+
+#   requisitos:
+#       * cada operação deve ter sua própria função
+#       * se num_a ou num_b não forem do tipo correto, lance uma exceção
+#   """
+
+#   def add(x, y):
+#       return x + y
+
+#   def subtract(x, y):
+#       return x - y
+
+#   def multiply(x, y):
+#       return x * y
+
+#   def divide(x, y):
+#       return x / y
+
+#   print("Select operation.")
+#   print("1.Add")
+#   print("2.Subtract")
+#   print("3.Multiply")
+#   print("4.Divide")
+
+#   while True:
+
+#       choice = input("Enter choice(1/2/3/4): ")
 
 
-def calculadora():
-    """
-    entradas:
-        operacao : string
-            descritor da operação. valores aceitos são "soma", "subtracao",
-            "multiplicacao", "divisao", "potencia"
-        num_a   : int, float
-        num_b   : int, float
+#       if choice in ('1', '2', '3', '4'):
+#           try:
+#               num1 = float(input("Enter first number: "))
+#               num2 = float(input("Enter second number: "))
+#           except ValueError:
+#               print("Invalid input. Please enter a number.")
+#               continue
 
-    saida:
-        resultado : int, float
+#           if choice == '1':
+#               print(num1, "+", num2, "=", add(num1, num2))
 
-    requisitos:
-        * cada operação deve ter sua própria função
-        * se num_a ou num_b não forem do tipo correto, lance uma exceção
-    """
-    return
+#           elif choice == '2':
+#               print(num1, "-", num2, "=", subtract(num1, num2))
+
+#           elif choice == '3':
+#               print(num1, "*", num2, "=", multiply(num1, num2))
+
+#           elif choice == '4':
+#               print(num1, "/", num2, "=", divide(num1, num2))
 
 
-def printa_dicionario():
+#           next_calculation = input("Let's do next calculation? (yes/no): ")
+#           if next_calculation == "no":
+#               break
+#       else:
+#           print("Invalid Input")
+
+
+def printa_dicionario(input_dict):
     """
     printa as chaves e valores de um dicionário no seguinte formato:
         {chave}\t{valor}
@@ -90,10 +144,12 @@ def printa_dicionario():
         dicionario
     saida: nulo
     """
+    for key, value in input_dict.items():
+        print(f"{key}:\t{value}")
+
     return
 
-
-def printa_chaves_especificas():
+def printa_chaves_especificas(input_dict):
     """
     printa as chaves e valores de um dicionário no seguinte formato:
         {chave}\t{valor}
@@ -107,10 +163,17 @@ def printa_chaves_especificas():
         * se uma chave da lista não existir no dicionário, printe o erro dizendo
         "chave {chave} não existe", mas não interrompa a execução
     """
+    for key, value in input_dict.items():
+        if key in ['Rita', 'Giovana', 'Jaqueline', 'Sofia']:
+            print(f"{key}:\t{value}")
+        else:
+            print(f"Chave {key} não existe")
+            continue
+
     return
 
 
-def ano_bissexto():
+def ano_bissexto(ano):
     """
     roubei do hackerrank:
 
@@ -135,10 +198,20 @@ def ano_bissexto():
         bissexto : booleano
             variável que dirá se o ano é bissext ou não
     """
-    return
+    #ano = input("Qual o ano que vamos checar?")
+    if (ano %4) == 0:
+
+        if (ano %100) == 0:
+
+            if (ano %400) == 0:
+                print("It is a leap year")
+            else:
+                print("It is not a leap year")
+
+    return ano
 
 
-def lista_maluca_inicio_0():
+def lista_maluca_inicio_0(x, y):
     """
     entradas:
         x, y : int
@@ -149,7 +222,19 @@ def lista_maluca_inicio_0():
         entrada: x = 2, y = 2
         saída: [[0,0],[0,1],[1,0],[1,1]]
     """
-    return
+    res = isinstance(x, int)
+    re = isinstance(y, int)
+
+
+   # assert type(x) == int
+    #assert type(y) == int
+
+    lista = []
+    for num in range(x):
+
+        lista.append(num)
+
+    return lista
 
 
 def lista_maluca_inicio_1():
@@ -173,4 +258,20 @@ if __name__ == "__main__":
     #print("retorno final de jedi", saida)
     #assert saida == "ritatiago" #ter certeza q vai sair o q quero, mais rapido pra checar
 
-    print_burro(0)
+    #print_burro(0)
+    #print(reverte("rita"))
+    #print(soma(3, 3))
+    #c = soma(1, 3)
+    #print(c)
+    #c = soma(1,3)
+    #print(c)
+    #input_dict = {
+      #  'Rita': '1',
+     #   'Giovana': '2',
+    #    'Tiago': '3'
+   #}
+
+
+    #printa_chaves_especificas(input_dict)
+   #ano = ano_bissexto(2400)
+    lista_maluca_inicio_0(3,2)
