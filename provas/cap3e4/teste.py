@@ -11,3 +11,11 @@ def fatorial(n):
         factorial = factorial * i
     print(factorial)
 print(fatorial(23))
+
+
+def t(number_1, number_2):
+    for i in range(number_2 + 1):
+        count = number_1 * i
+        print(f"{number_1} x {i} = {count}")
+
+t(9, 11)
