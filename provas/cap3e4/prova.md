@@ -7,17 +7,26 @@
 
  print(repete_a("oi", 2))
  ```
-R: oioi 
+R: A saída é: obj int is not iterable. Isso acontece quando colocamos um número diretamente no for, a melhor solução conhecida pela minha pessoa é usar um range, então:
+def repete_a(palavra, n_vezes):
+    for i in range(n_vezes):
+        print(palavra)
+
+print(repete_a("oi", 2))
+cuja saída será: oi printado duas vezes em linhas diferentes, nesse caso também retorna none.
 
  b)
  ```python
- def repete_b(palavra, n_vezes):
- 	for i in range(n_vezes):
-		print(palavra)
+def repete_b(palavra, n_vezes):
+    for i in range(n_vezes):
+	    print(palavra)
 
- print(repete_b("oi", -1))
+print(repete_b("oi", -1))
+
  ```
-Não vai printar oi porque -1 não é valido para iterar.
+R: Esse print apenas retorna None. A string não é printada porque a função range só funciona em ordem ascendente quando é usado um único parâmetro.
+
+
  c)
  ```python
  def repete_c(palavra, n_vezes=5):
@@ -26,22 +35,22 @@ Não vai printar oi porque -1 não é valido para iterar.
 
  print(repete_c("oi"))
  ```
-oioioioioi
+R: Neste caso, a função funciona normalmente, porque o parâmetro n_vezes tem um valor padrão mesmo quando não é estabelecido na hora de chamar a função, então são printados 5 ois em linhas diferentes, e retorna None no fim.
 
-2. no código acima, existe alguma restrição quanto ao tipo das variáveis? qual é
-   a saída se chamarmos a função como
+
+2. No código acima, existe alguma restrição quanto ao tipo das variáveis? qual é a saída se chamarmos a função como
+    Pela forma como o corpo da função foi deficinido, temos um contrato que estabelece que deve ser passado um valor que será printado, e nesse caso o tipo pode variar, mas o segundo parâmetro precisa ser um número int, o qual será iterado.
    a) `repete_a(-1, 1)`?
-   Aqui nao vai iterar, não sei explicar o porque
+    R: Neste caso, a iteração não ocorrerá, porque a função repete_a não tem a função range. Então o erro int obj is not iterable ocorre.
    b) `repete_b("palavra", "ok")`
-   ok is not iterable
+   R: O segundo parâmetro precisa ser um int. Como passamos uma string, dá o erro str object cannot be interpreted as an interger.
    c) `repete_c(2/3, 2)`
-   Aqui nao vai iterar, não sei explicar o porque
+    R: Aqui a função funciona normalmente, printa duas vezes em linhas diferentes o resultado da divisão 2/3. Como não foi usado print, não retorna None na última linha.
    
 
 3. por que usamos funções? qual é a melhor forma de debugar uma função?
-Funções são eficientes para encapsular códigos, e evitar repetições. Caso existam situações que você precisa repetir o mesmo processo mais deuma vez,
-o ideal é fazer uma função.
-
+Funções são usadas para evitar repetições de códigos, para facilitar a reutilização de trechos de código, e também ajuda a nomear pedaços de código, o que torna o script mais limpo e compreensível. 
+Funções tornam um código mais fácil de debugar, porque nos permite dividi-lo em pedaços menores, e executar em partes. 
 
 4. considere o seguinte trecho de código:
 ```python
@@ -64,8 +73,10 @@ ela ao conceito de escopo de variável.
 Giovana Farias
 Rita
 
-A variável que está dentro da função, é uma variável local enquanto Rita está fora da função. Quando chamamos a função pra printar,
-mesmo colocando nome como Rita, ela passe pela variavel interna e transforma Rita em Giovana.
+Essa saída foi printada porque quando estabelecemos dentro da função a variável local nome, mesmo que passemos um nome como parâmetro ao chamar a função, a variável local é utilizada como prioridade.
+Então o parâmetro válido se torna apenas o sobrenome. O segundo print é feito direto, sem utilizar a função e funciona com a varíavel global, printando Rita normalmente.
+A variável que está dentro da função, é uma variável local enquanto Rita está fora da função. Variáveis locais deixam de existir fora da função, mesmo que eu tentasse imprimir Giovana, não seria possível.
+Já as variáveis globais podem ser usadas dentro e fora da função.
 
 
 5. agora, considere o seguinte código
@@ -84,15 +95,17 @@ print(nome)
 qual é a saída? por quê? justifique novamente relacionando ao conceito de escopo
 de variável.
 
-nesse caso, o returno f não consegue ler as variáveis que estão fora da função, e também não foram estabelecidas como parametros.
-o segundo print funciona bem, pq é uma variável global que está fora da função.
+R: Temos um erro aqui, TypeError. Isso ocorre porque não foram estabelecidos parâmetros na função, mas passamos dois, que não serão aceitos, não está no contrato.
+O segundo print mostraria a variável global Rita, porém o programa não chega nele, uma vez que para com o erro descrito anteriormente.
 
 5. escreva uma função chamada "fatorial" que recebe um inteiro "n" e retorna o
    seu fatorial (n x n-1 x n-2 ...). quanto é o fatorial de 23?
 
 def fatorial(n):
-    return n * n - 1 * n - 2
-
+    factorial = 1
+    for i in range(1, n+1):
+        factorial = factorial * i
+    print(factorial)
 print(fatorial(23))
 
 
@@ -109,9 +122,10 @@ print(fatorial(23))
    LLLL
    LLLLL
    ```
-def triangulo(string, H):
-    for i in range(H):
+def triangulo(string, h):
+    for i in range(h+1):
         print(string * i)
+triangulo("h", 5)
 
 
 7. o que significa dizer que você está "refatorando" um código? por que você
@@ -131,9 +145,14 @@ Refatorar é tornar o código melhor, mais rápido, mais conciso, é um processo
 
    t()
    ```
-def t(number_1, range_n):
-    for i in range(range_n):
+def t(number_1, number_2):
+'''
+
+Recebe dois números int como parâmetros e printa a tabuada do primeiro número até o range do segundo número.
+
+'''
+    for i in range(number_2 + 1):
         count = number_1 * i
         print(f"{number_1} x {i} = {count}")
 
-t(5, 5)
+t(10, 8)
