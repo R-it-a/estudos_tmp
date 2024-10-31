@@ -1,21 +1,17 @@
-##(n x n-1 x n-2...)
-#def fatorial(n):
-#    for i in range(n):
-#        fat = (n-i)
-#        return fat ** n
-#
-#print(fatorial(23))
-def fatorial(n):
-    factorial = 1
-    for i in range(1, n+1):
-        factorial = factorial * i
-    print(factorial)
-print(fatorial(23))
+def calculadora():
+    n1 = int(input("Insira o primeiro número:"))
+    n2 = int(input("Insira o segundo número:"))
+    operador = input("Insira o operador (+, -, %, x): ")
 
 
-def t(number_1, number_2):
-    for i in range(number_2 + 1):
-        count = number_1 * i
-        print(f"{number_1} x {i} = {count}")
+    if operador == "%":
+        print(n1 / n2)
+    elif operador == "x":
+        print(n1 * n2)
+    elif operador == "+":
+        print(n1 + n2)
+    elif operador == "-":
+        print(n1 - n2)
 
-t(9, 11)
+
+calculadora()
